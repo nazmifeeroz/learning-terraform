@@ -16,21 +16,21 @@ data "aws_subnet_ids" "default" {
   vpc_id = data.aws_vpc.default.id
 }
 
-resource "aws_instance" "example" {
-  ami                    = "ami-0c55b159cbfafe1f0"
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.instance.id]
+#resource "aws_instance" "example" {
+#  ami                    = "ami-0c55b159cbfafe1f0"
+#  instance_type          = "t2.micro"
+#  vpc_security_group_ids = [aws_security_group.instance.id]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p ${var.server_port} &
-              EOF
+#  user_data = <<-EOF
+#              #!/bin/bash
+#              echo "Hello, World" > index.html
+#              nohup busybox httpd -f -p ${var.server_port} &
+#              EOF
 
-  tags = {
-    Name = "terraform-example"
-  }
-}
+#  tags = {
+#    Name = "terraform-example"
+#  }
+#}
 
 resource "aws_security_group" "instance" {
   name = "terraform-example-instance"
@@ -73,7 +73,7 @@ resource "aws_autoscaling_group" "example" {
   }
 }
 
-output "public_ip" {
-  value       = aws_instance.example.public_ip
-  description = "The public IP address of the web server"
-}
+# output "public_ip" {
+#   value       = aws_instance.example.public_ip
+#   description = "The public IP address of the web server"
+# }
