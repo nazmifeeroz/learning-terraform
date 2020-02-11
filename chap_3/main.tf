@@ -5,9 +5,9 @@ provider "aws" {
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "nazmi-terraform-up-and-running-state"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   versioning {
     enabled = true
@@ -33,13 +33,13 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
-terraform {
-  backend "s3" {
-    bucket  = "nazmi-terraform-up-and-running-state"
-    key     = "global/s3/terraform.tfstate"
-    region   = "us-east-2"
+# terraform {
+#   backend "s3" {
+#     bucket  = "nazmi-terraform-up-and-running-state"
+#     key     = "global/s3/terraform.tfstate"
+#     region   = "us-east-2"
 
-    dynamodb_table  = "terraform-up-and-running-locks"
-    encrypt         = true
-}
-  }
+#     dynamodb_table  = "terraform-up-and-running-locks"
+#     encrypt         = true
+#   }
+# }
