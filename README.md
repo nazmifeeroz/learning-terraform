@@ -35,3 +35,10 @@
 
   - Isolating state files
       - Its best practice to isolate dfferent environements
+
+## Workspaces
+
+### Cons
+  - The state files for all of your workspaces are stored in the same backend
+  - Workspaces are not visible in the code or on the terminal unless you run `terraform workspace`
+  - Error prone. Accidentally running `terraform destroy`
