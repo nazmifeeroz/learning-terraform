@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "nazmi-terraform-up-and-running-state"
+  bucket = "nazmi-terraform-up-and-running-state-2"
 
   # lifecycle {
   #   prevent_destroy = true
@@ -33,13 +33,28 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
-# terraform {
-#   backend "s3" {
-#     bucket  = "nazmi-terraform-up-and-running-state"
-#     key     = "global/s3/terraform.tfstate"
-#     region   = "us-east-2"
-
-#     dynamodb_table  = "terraform-up-and-running-locks"
-#     encrypt         = true
-#   }
+# resource "aws_instance" "example" {
+#   ami       = "ami-0c55b159cbfafe1f0"
+#   instance  = "t2.micro"
 # }
+
+terraform {
+  backend "s3" {
+    bucket  = "nazmi-terraform-up-and-running-state-2"
+    key     = "global/s3/terraform-2.tfstate"
+    region   = "us-east-2"
+
+    dynamodb_table  = "terraform-up-and-running-locks"
+    encrypt         = true
+  }
+}
+
+output "s3_bucket_arn" {
+  value       = aws_s3_bucket.terraform_state.arn
+  description = "The ARN of the S3 bucket"
+}
+
+output "dynamodb_table_name" {
+  value       = aws_dynamodb_table.terraform_locks.name
+  description = "The name of the DynamoDB table"
+}
