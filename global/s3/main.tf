@@ -4,14 +4,15 @@ provider "aws" {
 
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "nazmi-s3-terraform"
+  force_destroy = true
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -22,34 +23,34 @@ resource "aws_s3_bucket" "terraform_state" {
   }
 }
 
-resource "aws_dynamodb_table" "terraform_locks" {
-  name          = "terraform-locks"
-  billing_mode  = "PAY_PER_REQUEST"
-  hash_key      = "LockID"
+# resource "aws_dynamodb_table" "terraform_locks" {
+#   name          = "terraform-locks"
+#   billing_mode  = "PAY_PER_REQUEST"
+#   hash_key      = "LockID"
 
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-}
+#   attribute {
+#     name = "LockID"
+#     type = "S"
+#   }
+# }
 
-terraform {
-  backend "s3" {
-    bucket  = "nazmi-s3-terraform"
-    key     = "global/s3/terraform.tfstate"
-    region  = "us-east-2"
+# terraform {
+#   backend "s3" {
+#     bucket  = "nazmi-s3-terraform"
+#     key     = "global/s3/terraform.tfstate"
+#     region  = "us-east-2"
 
-    dynamodb_table  = "terraform-locks"
-    encrypt         = true
-  }
-}
+#     dynamodb_table  = "terraform-locks"
+#     encrypt         = true
+#   }
+# }
 
-output "s3_bucket_arn" {
-  value       = aws_s3_bucket.terraform_state.arn
-  description = "The ARN of the S3 bucket"
-}
+# output "s3_bucket_arn" {
+#   value       = aws_s3_bucket.terraform_state.arn
+#   description = "The ARN of the S3 bucket"
+# }
 
-output "dynamodb_table_name" {
-  value       = aws_dynamodb_table.terraform_locks.name
-  description = "Name of the DynamoDB table"
-}
+# output "dynamodb_table_name" {
+#   value       = aws_dynamodb_table.terraform_locks.name
+#   description = "Name of the DynamoDB table"
+# }
